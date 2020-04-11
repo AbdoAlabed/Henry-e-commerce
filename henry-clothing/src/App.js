@@ -2,19 +2,14 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 
 import HomePage from "./pages/homepage";
+import Shop from "./pages/shop/shop";
 
 function App(props) {
   return (
     <div>
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route
-          exact
-          path="/hats"
-          component={() => {
-            return <h1>HATS</h1>;
-          }}
-        />
+        <Route exact path="/shop" component={Shop} />
       </Switch>
     </div>
   );
