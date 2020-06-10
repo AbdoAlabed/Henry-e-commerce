@@ -6,6 +6,7 @@ import HomePage from "./pages/homepage";
 import Shop from "./pages/shop/shop";
 import Header from "./components/header/header";
 import SignInSignUp from "./pages/signin-signup/signin-signup";
+import CheckoutPage from "./pages/checkout/checkout";
 import {
   auth,
   createUserProfileDocument,
@@ -53,6 +54,7 @@ class App extends React.Component {
             path="/signin"
             component={this.props.currentUser ? HomePage : SignInSignUp}
           />
+          <Route exact path="/checkout" component={CheckoutPage} />
         </Switch>
       </div>
     );
