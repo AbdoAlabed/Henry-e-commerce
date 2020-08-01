@@ -2,14 +2,17 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 
 import CollectionOverview from "../../components/collectionOverview/collectionOverview";
-import CategoryPage from "../../components/category/category-page";
+import CollectionPage from "../../components/collection/collection-page";
 
 const Shop = ({ match }) => {
   return (
     <div>
       <Switch>
         <Route exact path={`${match.path}`} component={CollectionOverview} />
-        <Route exact path={`${match.path}/hats`} component={CategoryPage} />
+        <Route
+          path={`${match.path}/:collectionId`}
+          component={CollectionPage}
+        />
       </Switch>
     </div>
   );
