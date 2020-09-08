@@ -4,31 +4,30 @@ import { auth } from "../firebase/firebase.utils";
 import { connect } from "react-redux";
 import CartIcon from "../cart-icon/cart-icon";
 import CartDropdown from "../cart-dropdown/cart-dropdown";
-
-import "./header.scss";
+import {HeaderContainer, LogContainer, OptionsContainer, OptionContainer} from './header.styles'
 
 const Header = ({ history, match, currentUser, toggleHidden }) => {
   return (
-    <div className="header">
-      <div className="log-container"></div>
-      <div className="options">
-        <h5 onClick={() => history.push(`${match.url}shop`)} className="option">
+    <HeaderContainer>
+      <LogContainer></LogContainer>
+      <OptionsContainer>
+        <OptionContainer onClick={() => history.push(`${match.url}shop`)}>
           SHOP
-        </h5>
-        <h5 className="option">CONTACT</h5>
+        </OptionContainer>
+        <OptionContainer>CONTACT</OptionContainer>
         {currentUser ? (
-          <h5 className="option" onClick={() => auth.signOut()}>
+          <OptionContainer onClick={() => auth.signOut()}>
             SIGN OUT
-          </h5>
+          </OptionContainer>
         ) : (
-          <h5 className="option" onClick={() => history.push("/signin")}>
+          <OptionContainer onClick={() => history.push("/signin")}>
             SIGN IN
-          </h5>
+          </OptionContainer>
         )}
         <CartIcon />
-      </div>
+      </OptionsContainer>
       {toggleHidden ? null : <CartDropdown />}
-    </div>
+    </HeaderContainer>
   );
 };
 

@@ -2,17 +2,19 @@ import React from "react";
 
 import { connect } from "react-redux";
 import CollectionPreview from "../collection_preview/collection.preview";
+import {collectionsToArray} from '../../pages/shop/shop.utils'
 
-const CollectionOverview = ({ collectionData }) => {
+const CollectionOverview = ({ collection }) => {
+  const collections = collectionsToArray(collection)
   return (
     <div>
-      {collectionData.map(({ id, ...otherDate }) => (
+      {collections.map(({ id, ...otherDate }) => (
         <CollectionPreview key={id} {...otherDate} />
       ))}
     </div>
   );
 };
 
-const mapStateToProps = ({ shop }) => ({ collectionData: shop });
+const mapStateToProps = ({ shop }) => ({ collection: shop.collections });
 
 export default connect(mapStateToProps)(CollectionOverview);

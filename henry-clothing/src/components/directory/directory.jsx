@@ -5,7 +5,6 @@ import Menu from "../menu/menu-item";
 import "./directory.scss";
 
 const Directory = ({ sections }) => {
-  console.log(sections)
   return (
     <div className="directory-menu">
       {sections.map(({ title, imageUrl, size, id, linkUrl }) => (
