@@ -4,7 +4,7 @@ import CollectionItem from "../collection_item/collection.item";
 import {collectionsToArray} from '../../pages/shop/shop.utils'
 import "./collection.scss";
 
-const CollectionPage = ({ collection }) => {
+const CollectionPage = ({ collection}) => {
   const { title, items } = collection[0];
   
   return (
