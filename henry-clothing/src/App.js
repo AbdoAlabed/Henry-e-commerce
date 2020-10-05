@@ -12,32 +12,14 @@ import {
   createUserProfileDocument,
 } from ".//components/firebase/firebase.utils";
 import { connect } from "react-redux";
-import { setCurrentUser } from "./redux/user/user.action";
+import {checkUserSession } from "./redux/user/user.action";
 
 class App extends React.Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setCurrentUser } = this.props;
-
-    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-    //   if (userAuth) {
-    //     console.log(userAuth)
-    //     const userRef = await createUserProfileDocument(userAuth);
-
-    //     userRef.onSnapshot((snapShot) => {
-    //       setCurrentUser({
-    //         currentUser: {
-    //           id: snapShot.id,
-    //           ...snapShot.data(),
-    //         },
-    //       });
-    //     });
-    //   } else {
-    //     console.log(userAuth)
-    //     setCurrentUser(userAuth);
-    //   }
-    // });
+    const { checkUser } = this.props;
+    checkUser()
   }
 
   componentWillUnmount() {
@@ -69,6 +51,10 @@ const mapStateToProps = ({ user }) => {
   };
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    checkUser: ()=> dispatch(checkUserSession())
+  }
+}
 
-
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps,mapDispatchToProps)(App);

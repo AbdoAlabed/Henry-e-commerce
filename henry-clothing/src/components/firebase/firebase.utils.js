@@ -49,6 +49,15 @@ export const addCollectionAndDocument = async (collectionKey, objectsToAdd) => {
  return await batch.commit() 
 }
 
+export const getCurrentUser = () => {
+  return new Promise((resolve,reject)=>{
+    const unsubscrib = auth.onAuthStateChanged(userAuth => {
+      unsubscrib()
+      resolve(userAuth)
+    },reject)
+  })
+}
+
 export const convertCollectionsSnapshotToMap = (collections) => {
   const transformedCollection = collections.docs.map(doc => {
     const {title, items} = doc.data();

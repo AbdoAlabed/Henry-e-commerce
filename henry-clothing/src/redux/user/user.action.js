@@ -34,3 +34,9 @@ export const emailSignInFailure= (error) =>{
     payload: error.message
   }
 }
+
+export const checkUserSession = () => {
+  return {
+    type: "CHECK_USER_SESSION"
+  }
+}
