@@ -58,3 +58,22 @@ export const signOutFailure = (error) => {
     payload: error.message
   }
 }
+
+export const signUpStart = (nameEmailAndPassword) => {
+  return{
+    type: "SIGN_UP_START",
+    payload: nameEmailAndPassword
+  }
+}
+export const signUpSuccess = (user) => {
+  return{
+    type: "SIGN_UP_SUCCESS",
+    payload: user
+  }
+}
+export const signUpFailure = (error) => {
+  return {
+    type: "SIGN_UP_FAILURE",
+    payload: error.message
+  }
+}
