@@ -1,6 +1,7 @@
 import {takeLatest, put, call, all} from 'redux-saga/effects'
 import {googleProvider, auth, getCurrentUser, createUserProfileDocument} from '../../components/firebase/firebase.utils'
-import {googleSignInSuccess, googleSignInFailure, emailSignInSuccess, emailSignInFailure} from './user.action'
+import {googleSignInSuccess, googleSignInFailure, emailSignInSuccess,
+        emailSignInFailure, signOutFailure, signOutSuccess} from './user.action'
 
  function* signInWithGoogle(){
    try{
@@ -11,6 +12,9 @@ import {googleSignInSuccess, googleSignInFailure, emailSignInSuccess, emailSignI
    } catch(error){
      yield put(googleSignInFailure(error.message))
    }
+}
+export  function* onSignInWithGoogleStart(){
+    yield takeLatest("GOOGLE_SIGN_IN_START", signInWithGoogle)
 }
 
 export function* signInWithEmailAndPassword({payload: {email, password}}){
@@ -23,11 +27,6 @@ export function* signInWithEmailAndPassword({payload: {email, password}}){
         yield put(emailSignInFailure(error.message))
     }
 }
-
-export  function* onSignInWithGoogleStart(){
-    yield takeLatest("GOOGLE_SIGN_IN_START", signInWithGoogle)
-}
-
 export function* onSignInWithEmailAndPasswordStart(){
     yield takeLatest("EMAIL_SIGN_IN_START",signInWithEmailAndPassword)
 }
@@ -43,11 +42,23 @@ function* isUserAuthenticated(){
         yield put(emailSignInFailure(error.message))
     }
 }
-
 export function* onCheckUserSession(){
     yield takeLatest("CHECK_USER_SESSION",isUserAuthenticated)
 }
 
+export function* userSignOutStart(){
+    try{
+        yield auth.signOut();
+        yield put(signOutSuccess())
+    } catch(error){
+        yield put(signOutFailure(error))
+    }
+}
+export function* onUserSignOut(){
+    yield takeLatest("SIGN_OUT_START",userSignOutStart)
+}
+
 export function* userSagas(){
-    yield all([call(onSignInWithGoogleStart),call(onSignInWithEmailAndPasswordStart), call(onCheckUserSession)])
+    yield all([call(onSignInWithGoogleStart),call(onSignInWithEmailAndPasswordStart),
+         call(onCheckUserSession),call(onUserSignOut)])
 }

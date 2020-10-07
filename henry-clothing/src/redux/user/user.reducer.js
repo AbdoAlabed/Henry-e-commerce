@@ -11,10 +11,16 @@ const userReducer = (state = INITIAL_STATE, action) => {
         currentUser: action.payload,
         error: null
       }
-    case "GOOGLE_SIGN_IN_FAILURE": case "EMAIL_SIGN_IN_FAILURE":
+    case "GOOGLE_SIGN_IN_FAILURE": case "EMAIL_SIGN_IN_FAILURE": case "SIGN_OUT_FAILURE":
       return {
         ...state,
         error: action.payload,
+      }
+    case "SIGN_OUT_SUCCESS":
+      return {
+        ...state,
+        currentUser: null,
+        error: null
       }
     default:
       return state;

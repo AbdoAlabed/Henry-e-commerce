@@ -5,8 +5,9 @@ import { connect } from "react-redux";
 import CartIcon from "../cart-icon/cart-icon";
 import CartDropdown from "../cart-dropdown/cart-dropdown";
 import {HeaderContainer, LogContainer, OptionsContainer, OptionContainer} from './header.styles'
+import {signOutStart} from '../../redux/user/user.action'
 
-const Header = ({ history, match, currentUser, toggleHidden }) => {
+const Header = ({ history, match, currentUser, toggleHidden, signOut }) => {
   return (
     <HeaderContainer>
       <LogContainer></LogContainer>
@@ -16,7 +17,7 @@ const Header = ({ history, match, currentUser, toggleHidden }) => {
         </OptionContainer>
         <OptionContainer>CONTACT</OptionContainer>
         {currentUser ? (
-          <OptionContainer onClick={() => auth.signOut()}>
+          <OptionContainer onClick={() =>signOut() }>
             SIGN OUT
           </OptionContainer>
         ) : (
@@ -38,4 +39,10 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps)(withRouter(Header));
+const mapDispatchToProps = (dispatch) => {
+  return {
+    signOut: ()=> dispatch(signOutStart()) 
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(Header));
