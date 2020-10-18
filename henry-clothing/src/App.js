@@ -1,49 +1,44 @@
-import React from "react";
+import React, {useEffect, lazy, Suspense} from "react";
 import { Switch, Route } from "react-router-dom";
 
 import "./App.css";
-import HomePage from "./pages/homepage/homepage";
-import Shop from "./pages/shop/shop";
 import Header from "./components/header/header";
-import SignInSignUp from "./pages/signin-signup/signin-signup";
-import CheckoutPage from "./pages/checkout/checkout";
-import {
-  auth,
-  createUserProfileDocument,
-} from ".//components/firebase/firebase.utils";
 import { connect } from "react-redux";
 import {checkUserSession } from "./redux/user/user.action";
+import Spinner from './components/spinner/spinner'
+import ErrorBoundaries from './components/error-boundaries/error-boundaries';
 
-class App extends React.Component {
-  unsubscribeFromAuth = null;
+const App = ({checkUser, currentUser}) => {
+ 
+    useEffect(()=>{
+      checkUser()
+    },[checkUser])
+    
+    const HomePage = lazy(() => import("./pages/homepage/homepage"));
+    const Shop = lazy(() => import("./pages/shop/shop"));
+    const SignInSignUp = lazy(() => import("./pages/signin-signup/signin-signup"));
+    const CheckoutPage = lazy(() => import("./pages/checkout/checkout"));
 
-  componentDidMount() {
-    const { checkUser } = this.props;
-    checkUser()
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeFromAuth();
-  }
-
-  render() {
     return (
       <div>
+        <ErrorBoundaries>
         <Header />
         <Switch>
+          <Suspense fallback={<Spinner/>}>
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={Shop} />
           <Route
             exact
             path="/signin"
-            component={this.props.currentUser ? HomePage : SignInSignUp}
+            component={currentUser ? HomePage : SignInSignUp}
           />
           <Route exact path="/checkout" component={CheckoutPage} />
+          </Suspense>
         </Switch>
+        </ErrorBoundaries>
       </div>
     );
   }
-}
 
 const mapStateToProps = ({ user }) => {
   return {

@@ -61,9 +61,8 @@ export function* onUserSignOut(){
 function* userSignUp({payload: {email, password, displayName}}){
     try{
      const {user} = yield auth.createUserWithEmailAndPassword(email,password);
-     const userRef = yield call(createUserProfileDocument,{userAuth: user,displayName: displayName});
+     const userRef = yield call(createUserProfileDocument,user,{displayName});
      const snapShot = yield userRef.get();
-     console.log(snapShot.data())
        yield put(signUpSuccess({id: snapShot.id, ...snapShot.data()}));
     } catch(error){
        yield put(signUpFailure(error));
